@@ -3,7 +3,6 @@ package level2.exercise1.menu;
 import level2.exercise1.address.AbstractAddress;
 import level2.exercise1.book.AddressBook;
 import level2.exercise1.factory.AbstractFactory;
-import level2.exercise1.factory.FactoryMaker;
 import level2.exercise1.factory.InternationalFactory;
 import level2.exercise1.factory.NationalFactory;
 import level2.exercise1.phone.AbstractPhoneNumber;
@@ -17,60 +16,49 @@ public class Menu {
 
     public void displayMenu() {
         while (true) {
-            System.out.println("\nMenu:");
-            System.out.println("1. Add National Entry");
-            System.out.println("2. Add International Entry");
-            System.out.println("3. Display Address Book");
-            System.out.println("4. Exit");
-            System.out.print("Choose an option: ");
-
+            showMenuOptions();
             int option = scanner.nextInt();
             scanner.nextLine();
 
             switch (option) {
-                case 1:
-                    addNationalEntry();
-                    break;
-                case 2:
-                    addInternationalEntry();
-                    break;
-                case 3:
-                    addressBook.display();
-                    break;
-                case 4:
+                case 1 -> addContact(new NationalFactory(), "National");
+                case 2 -> addContact(new InternationalFactory(), "International");
+                case 3 -> addressBook.display();
+                case 4 -> {
                     System.out.println("Exiting...");
                     return;
-                default:
-                    System.out.println("Invalid option. Try again.");
+                }
+                default -> System.out.println("Invalid option. Try again.");
             }
         }
     }
 
-    private void addNationalEntry() {
-        AbstractFactory factory = new NationalFactory();
-        AbstractAddress address = factory.createAddress();
+    private void showMenuOptions() {
+        System.out.println("\nMenu:");
+        System.out.println("1. Add National Contact");
+        System.out.println("2. Add International Contact");
+        System.out.println("3. Display Address Book");
+        System.out.println("4. Exit");
+        System.out.print("Choose an option: ");
+    }
 
-        System.out.print("Enter street: ");
-        address.setStreet(scanner.nextLine());
-        System.out.print("Enter city: ");
-        address.setCity(scanner.nextLine());
-        System.out.print("Enter region: ");
-        address.setRegion(scanner.nextLine());
-        System.out.print("Enter postal code: ");
-        address.setPostalCode(scanner.nextLine());
+    private void addContact(AbstractFactory factory, String type) {
+        AbstractAddress address = factory.createAddress();
+        fillAddressForm(address);
+
+        String country = null;
+        if (type.equals("International")) {
+            country = setInternationalDetails(address);
+        }
 
         AbstractPhoneNumber phoneNumber = factory.createPhoneNumber();
-        System.out.print("Enter phone number: ");
-        phoneNumber.setNumber(scanner.nextLine());
+        setPhoneNumber(phoneNumber, type, country);
 
         addressBook.addAddress(address);
         addressBook.addPhoneNumber(phoneNumber);
     }
 
-    private void addInternationalEntry() {
-        AbstractFactory factory = new InternationalFactory();
-        AbstractAddress address = factory.createAddress();
-
+    private void fillAddressForm(AbstractAddress address) {
         System.out.print("Enter street: ");
         address.setStreet(scanner.nextLine());
         System.out.print("Enter city: ");
@@ -79,18 +67,21 @@ public class Menu {
         address.setRegion(scanner.nextLine());
         System.out.print("Enter postal code: ");
         address.setPostalCode(scanner.nextLine());
+    }
+
+    private String setInternationalDetails(AbstractAddress address) {
         System.out.print("Enter country: ");
         String country = scanner.nextLine();
         address.setCountry(country.toUpperCase());
+        return country;
+    }
 
-        String prefix = CountryPrefixReader.getCountryPrefix(country);
-
-        AbstractPhoneNumber phoneNumber = factory.createPhoneNumber();
+    private void setPhoneNumber(AbstractPhoneNumber phoneNumber, String type, String country) {
+        if (type.equals("International")) {
+            String prefix = CountryPrefixReader.getCountryPrefix(country);
+            phoneNumber.setPrefix(prefix);
+        }
         System.out.print("Enter phone number: ");
         phoneNumber.setNumber(scanner.nextLine());
-        phoneNumber.setPrefix(prefix);
-
-        addressBook.addAddress(address);
-        addressBook.addPhoneNumber(phoneNumber);
     }
 }
