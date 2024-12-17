@@ -1,7 +1,7 @@
-package level2.factory;
+package level2.exercise1.factory;
 
-import level2.address.AbstractAddress;
-import level2.phone.AbstractPhoneNumber;
+import level2.exercise1.address.AbstractAddress;
+import level2.exercise1.phone.AbstractPhoneNumber;
 
 public abstract class AbstractFactory {
     public abstract AbstractAddress createAddress();

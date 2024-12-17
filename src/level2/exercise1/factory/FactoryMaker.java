@@ -1,12 +1,12 @@
-package level2.factory;
+package level2.exercise1.factory;
 
 public class FactoryMaker {
     public static AbstractFactory getFactory(String country) {
         switch (country.toLowerCase()) {
             case "us":
-                return new USFactory();
+                return new InternationalFactory();
             case "england":
-                return new EnglandFactory();
+                return new NationalFactory();
             default:
                 throw new IllegalArgumentException("Unknown country: " + country);
         }

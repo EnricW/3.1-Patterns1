@@ -1,6 +1,6 @@
-package level2.main;
+package level2.exercise1.main;
 
-import level2.menu.Menu;
+import level2.exercise1.menu.Menu;
 
 public class Main {
     public static void main(String[] args) {

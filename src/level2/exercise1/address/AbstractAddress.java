@@ -1,4 +1,4 @@
-package level2.address;
+package level2.exercise1.address;
 
 public abstract class AbstractAddress {
     public abstract String getFullAddress();
@@ -10,4 +10,6 @@ public abstract class AbstractAddress {
     public abstract void setRegion(String region);
 
     public abstract void setPostalCode(String postalCode);
+
+    public abstract void setCountry(String country);
 }

@@ -1,10 +1,10 @@
-package level2.address;
+package level2.exercise1.address;
 
-public class EnglandAddress extends AbstractAddress {
+public class NationalAddress extends AbstractAddress {
     private String street, city, region, postalCode;
 
     public String getFullAddress() {
-        return street + ", " + city + ", " + region + " " + postalCode;
+        return street + ", " + city + ", " + region + " " + postalCode + ", SPAIN";
     }
 
     public void setStreet(String street) {
@@ -21,5 +21,8 @@ public class EnglandAddress extends AbstractAddress {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    public void setCountry(String country) {
     }
 }

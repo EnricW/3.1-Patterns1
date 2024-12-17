@@ -1,7 +1,7 @@
-package level2.book;
+package level2.exercise1.book;
 
-import level2.address.AbstractAddress;
-import level2.phone.AbstractPhoneNumber;
+import level2.exercise1.address.AbstractAddress;
+import level2.exercise1.phone.AbstractPhoneNumber;
 
 import java.util.ArrayList;
 import java.util.List;
