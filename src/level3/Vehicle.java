@@ -1,12 +1,19 @@
 package level3;
 
-public interface Vehicle {
-    default void startEngine() {
+public abstract class Vehicle {
+    private String name;
+
+    public Vehicle(String name) {
+        this.name = name;
     }
 
-    default void accelerate() {
+    public String getName() {
+        return name;
     }
 
-    default void brake() {
-    }
+    public abstract void start();
+
+    public abstract void accelerate();
+
+    public abstract void brake();
 }

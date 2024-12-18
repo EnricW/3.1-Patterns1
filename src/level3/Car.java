@@ -1,8 +1,12 @@
 package level3;
 
-public class Car implements Vehicle {
+public class Car extends Vehicle {
+    public Car(String name) {
+        super(name);
+    }
+
     @Override
-    public void startEngine() {
+    public void start() {
         System.out.println("Car engine started");
     }
 
