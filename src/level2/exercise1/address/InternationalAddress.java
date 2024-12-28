@@ -4,7 +4,8 @@ public class InternationalAddress extends AbstractAddress {
     private String street, city, region, postalCode, country;
 
     public String getFullAddress() {
-        return street + ", " + city + ", " + region + " " + postalCode + ", " + country;
+        String formattedCountry = (country != null && !country.isEmpty()) ? country : "Unknown Country";
+        return street + ", " + city + ", " + region + " " + postalCode + ", " + formattedCountry;
     }
 
     public void setStreet(String street) {

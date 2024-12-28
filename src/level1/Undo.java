@@ -24,7 +24,7 @@ class Undo {
 
     public void removeLastCommand() {
         if (!commandHistory.isEmpty()) {
-            commandHistory.removeLast();
+            commandHistory.remove(commandHistory.size() - 1);
         } else {
             System.out.println("There are no commands in command history.");
         }

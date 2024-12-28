@@ -1,4 +1,6 @@
-package level3;
+package level3.commands;
+
+import level3.vehicles.Vehicle;
 
 public class Start implements Command {
     private Vehicle vehicle;

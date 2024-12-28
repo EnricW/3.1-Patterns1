@@ -1,4 +1,4 @@
-package level3;
+package level3.vehicles;
 
 public class Boat extends Vehicle {
     public Boat(String name) {

@@ -8,6 +8,7 @@ import level2.exercise1.factory.NationalFactory;
 import level2.exercise1.phone.AbstractPhoneNumber;
 import level2.exercise1.utils.CountryPrefixReader;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
@@ -17,8 +18,7 @@ public class Menu {
     public void displayMenu() {
         while (true) {
             showMenuOptions();
-            int option = scanner.nextInt();
-            scanner.nextLine();
+            int option = getValidMenuOption();
 
             switch (option) {
                 case 1 -> addContact(new NationalFactory(), "National");
@@ -40,6 +40,24 @@ public class Menu {
         System.out.println("3. Display Address Book");
         System.out.println("4. Exit");
         System.out.print("Choose an option: ");
+    }
+
+    private int getValidMenuOption() {
+        int option = -1;
+        while (true) {
+            try {
+                option = scanner.nextInt();
+                scanner.nextLine();
+                if (option >= 1 && option <= 4) {
+                    return option;
+                } else {
+                    System.out.println("Invalid option. Please enter a number between 1 and 4.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+                scanner.nextLine();
+            }
+        }
     }
 
     private void addContact(AbstractFactory factory, String type) {

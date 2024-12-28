@@ -1,4 +1,4 @@
-package level3;
+package level3.vehicles;
 
 public class Car extends Vehicle {
     public Car(String name) {

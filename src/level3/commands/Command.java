@@ -1,4 +1,4 @@
-package level3;
+package level3.commands;
 
 public interface Command {
     void execute();
