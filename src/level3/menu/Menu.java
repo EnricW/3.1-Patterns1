@@ -50,7 +50,7 @@ public class Menu {
     private Vehicle selectVehicle(Scanner scanner) throws InvalidVehicleChoiceException {
         System.out.println("\nSelect a vehicle:\n1. Car\n2. Bicycle\n3. Plane\n4. Boat\n5. Exit");
 
-        int vehicleChoice = getChoice(scanner, 1, 5);
+        int vehicleChoice = getChoice(scanner, 5);
         if (vehicleChoice == 5) {
             System.out.println("Exiting...");
             return null;
@@ -62,14 +62,14 @@ public class Menu {
     private Command selectAction(Scanner scanner, Vehicle selectedVehicle) throws InvalidActionChoiceException {
         System.out.println("\nSelect an action:\n1. Start\n2. Accelerate\n3. Brake");
 
-        int actionChoice = getChoice(scanner, 1, 3);
+        int actionChoice = getChoice(scanner, 3);
         return getActionByChoice(actionChoice, selectedVehicle);
     }
 
-    private int getChoice(Scanner scanner, int min, int max) throws InvalidInputException {
+    private int getChoice(Scanner scanner, int max) throws InvalidInputException {
         int choice = -1;
-        while (choice < min || choice > max) {
-            System.out.print("Please choose a valid option (" + min + " to " + max + "): ");
+        while (choice < 1 || choice > max) {
+            System.out.print("Please choose a valid option (1 to " + max + "): ");
             if (scanner.hasNextInt()) {
                 choice = scanner.nextInt();
             } else {
