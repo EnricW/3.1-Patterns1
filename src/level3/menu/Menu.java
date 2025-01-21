@@ -4,14 +4,17 @@ import level3.commands.Accelerate;
 import level3.commands.Brake;
 import level3.commands.Command;
 import level3.commands.Start;
+import level3.exceptions.InvalidActionChoiceException;
+import level3.exceptions.InvalidInputException;
+import level3.exceptions.InvalidVehicleChoiceException;
 import level3.remote.RemoteControl;
 import level3.vehicles.*;
 
 import java.util.Scanner;
 
 public class Menu {
-    private RemoteControl remote;
-    private Vehicle car, bicycle, plane, boat;
+    private final RemoteControl remote;
+    private final Vehicle car, bicycle, plane, boat;
 
     public Menu() {
         this.remote = new RemoteControl();
@@ -26,52 +29,73 @@ public class Menu {
         boolean exit = false;
 
         while (!exit) {
-            System.out.println("\nSelect a vehicle:");
-            System.out.println("1. Car");
-            System.out.println("2. Bicycle");
-            System.out.println("3. Plane");
-            System.out.println("4. Boat");
-            System.out.println("5. Exit");
-
-            int vehicleChoice = scanner.nextInt();
-
-            Vehicle selectedVehicle = null;
-            switch (vehicleChoice) {
-                case 1 -> selectedVehicle = car;
-                case 2 -> selectedVehicle = bicycle;
-                case 3 -> selectedVehicle = plane;
-                case 4 -> selectedVehicle = boat;
-                case 5 -> {
+            try {
+                Vehicle selectedVehicle = selectVehicle(scanner);
+                if (selectedVehicle == null) {
                     exit = true;
-                    System.out.println("Exiting...");
                     continue;
                 }
-                default -> {
-                    System.out.println("Invalid choice. Try again.");
-                    continue;
-                }
-            }
 
-            System.out.println("\nSelect an action:");
-            System.out.println("1. Start");
-            System.out.println("2. Accelerate");
-            System.out.println("3. Brake");
-
-            int actionChoice = scanner.nextInt();
-
-            Command command = null;
-            switch (actionChoice) {
-                case 1 -> command = new Start(selectedVehicle);
-                case 2 -> command = new Accelerate(selectedVehicle);
-                case 3 -> command = new Brake(selectedVehicle);
-                default -> System.out.println("Invalid action. Try again.");
-            }
-
-            if (command != null) {
+                Command command = selectAction(scanner, selectedVehicle);
                 remote.submit(command);
+
+            } catch (InvalidVehicleChoiceException | InvalidActionChoiceException | InvalidInputException e) {
+                System.out.println(e.getMessage());
             }
         }
 
         scanner.close();
+    }
+
+    private Vehicle selectVehicle(Scanner scanner) throws InvalidVehicleChoiceException {
+        System.out.println("\nSelect a vehicle:\n1. Car\n2. Bicycle\n3. Plane\n4. Boat\n5. Exit");
+
+        int vehicleChoice = getChoice(scanner, 1, 5);
+        if (vehicleChoice == 5) {
+            System.out.println("Exiting...");
+            return null;
+        }
+
+        return getVehicleByChoice(vehicleChoice);
+    }
+
+    private Command selectAction(Scanner scanner, Vehicle selectedVehicle) throws InvalidActionChoiceException {
+        System.out.println("\nSelect an action:\n1. Start\n2. Accelerate\n3. Brake");
+
+        int actionChoice = getChoice(scanner, 1, 3);
+        return getActionByChoice(actionChoice, selectedVehicle);
+    }
+
+    private int getChoice(Scanner scanner, int min, int max) throws InvalidInputException {
+        int choice = -1;
+        while (choice < min || choice > max) {
+            System.out.print("Please choose a valid option (" + min + " to " + max + "): ");
+            if (scanner.hasNextInt()) {
+                choice = scanner.nextInt();
+            } else {
+                scanner.next();
+                throw new InvalidInputException("Invalid input. Please enter a number.");
+            }
+        }
+        return choice;
+    }
+
+    private Vehicle getVehicleByChoice(int vehicleChoice) throws InvalidVehicleChoiceException {
+        return switch (vehicleChoice) {
+            case 1 -> car;
+            case 2 -> bicycle;
+            case 3 -> plane;
+            case 4 -> boat;
+            default -> throw new InvalidVehicleChoiceException("Invalid vehicle choice. Please select a valid vehicle.");
+        };
+    }
+
+    private Command getActionByChoice(int actionChoice, Vehicle selectedVehicle) throws InvalidActionChoiceException {
+        return switch (actionChoice) {
+            case 1 -> new Start(selectedVehicle);
+            case 2 -> new Accelerate(selectedVehicle);
+            case 3 -> new Brake(selectedVehicle);
+            default -> throw new InvalidActionChoiceException("Invalid action choice. Please select a valid action.");
+        };
     }
 }
