@@ -1,8 +1,8 @@
-# Patrons de Disseny en Java 🎯
+# Patrons de Disseny en Java I 🎯
 
 ## 📄 Descripció - Enunciat de l'exercici
 
-Aquest projecte explora diversos patrons de disseny en Java a través d'exercicis pràctics dividits en tres nivells. L'objectiu és comprendre com implementar patrons per crear programari extensible i reutilitzable.
+Aquest projecte explora diversos patrons de disseny en Java, com Singleton, Abstract Factory i Command, a través d'exercicis pràctics dividits en tres nivells. L'objectiu és comprendre com implementar patrons per crear programari extensible i reutilitzable.
 
 ### Nivell 1 ⭐
 #### Exercici 1: Singleton
