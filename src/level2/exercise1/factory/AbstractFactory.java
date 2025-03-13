@@ -1,10 +1,10 @@
 package level2.exercise1.factory;
 
-import level2.exercise1.address.AbstractAddress;
-import level2.exercise1.phone.AbstractPhoneNumber;
+import level2.exercise1.address.Address;
+import level2.exercise1.phone.PhoneNumber;
 
-public abstract class AbstractFactory {
-    public abstract AbstractAddress createAddress();
+public interface AbstractFactory {
+    Address createAddress();
 
-    public abstract AbstractPhoneNumber createPhoneNumber();
+    PhoneNumber createPhoneNumber();
 }

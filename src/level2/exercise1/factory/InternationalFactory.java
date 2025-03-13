@@ -1,16 +1,18 @@
 package level2.exercise1.factory;
 
-import level2.exercise1.address.AbstractAddress;
+import level2.exercise1.address.Address;
 import level2.exercise1.address.InternationalAddress;
-import level2.exercise1.phone.AbstractPhoneNumber;
+import level2.exercise1.phone.PhoneNumber;
 import level2.exercise1.phone.InternationalPhoneNumber;
 
-public class InternationalFactory extends AbstractFactory {
-    public AbstractAddress createAddress() {
+public class InternationalFactory implements AbstractFactory {
+    @Override
+    public Address createAddress() {
         return new InternationalAddress();
     }
 
-    public AbstractPhoneNumber createPhoneNumber() {
+    @Override
+    public PhoneNumber createPhoneNumber() {
         return new InternationalPhoneNumber();
     }
 }

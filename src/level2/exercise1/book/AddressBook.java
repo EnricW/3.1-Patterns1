@@ -1,32 +1,29 @@
 package level2.exercise1.book;
 
-import level2.exercise1.address.AbstractAddress;
-import level2.exercise1.phone.AbstractPhoneNumber;
-
+import level2.exercise1.contact.Contact;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AddressBook {
-    private final List<AbstractAddress> addresses = new ArrayList<>();
-    private final List<AbstractPhoneNumber> phoneNumbers = new ArrayList<>();
+    private final List<Contact> contacts = new ArrayList<>();
 
-    public void addAddress(AbstractAddress address) {
-        addresses.add(address);
-    }
-
-    public void addPhoneNumber(AbstractPhoneNumber phoneNumber) {
-        phoneNumbers.add(phoneNumber);
+    public void addContact(Contact contact) {
+        if (contact == null) {
+            throw new IllegalArgumentException("Contact cannot be null");
+        }
+        contacts.add(contact);
     }
 
     public void display() {
-        System.out.println("Addresses:");
-        for (AbstractAddress address : addresses) {
-            System.out.println(address.getFullAddress());
+        if (contacts.isEmpty()) {
+            System.out.println("The address book is empty.");
+            return;
         }
 
-        System.out.println("\nPhone Numbers:");
-        for (AbstractPhoneNumber phoneNumber : phoneNumbers) {
-            System.out.println(phoneNumber.getFormattedNumber());
+        System.out.println("Contacts:");
+        for (Contact contact : contacts) {
+            contact.display();
+            System.out.println();
         }
     }
 }

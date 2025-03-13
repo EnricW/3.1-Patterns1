@@ -1,14 +1,14 @@
 package level2.exercise1.menu;
 
-import level2.exercise1.address.AbstractAddress;
 import level2.exercise1.book.AddressBook;
+import level2.exercise1.contact.Contact;
 import level2.exercise1.factory.AbstractFactory;
 import level2.exercise1.factory.InternationalFactory;
 import level2.exercise1.factory.NationalFactory;
-import level2.exercise1.phone.AbstractPhoneNumber;
 import level2.exercise1.utils.CountryPrefixReader;
+import level2.exercise1.address.Address;
+import level2.exercise1.phone.PhoneNumber;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
@@ -43,25 +43,21 @@ public class Menu {
     }
 
     private int getValidMenuOption() {
-        int option = -1;
         while (true) {
             try {
-                option = scanner.nextInt();
-                scanner.nextLine();
+                int option = Integer.parseInt(scanner.nextLine().trim());
                 if (option >= 1 && option <= 4) {
                     return option;
-                } else {
-                    System.out.println("Invalid option. Please enter a number between 1 and 4.");
                 }
-            } catch (InputMismatchException e) {
+                System.out.println("Invalid option. Please enter a number between 1 and 4.");
+            } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a valid number.");
-                scanner.nextLine();
             }
         }
     }
 
     private void addContact(AbstractFactory factory, String type) {
-        AbstractAddress address = factory.createAddress();
+        Address address = factory.createAddress();
         fillAddressForm(address);
 
         String country = null;
@@ -69,37 +65,44 @@ public class Menu {
             country = setInternationalDetails(address);
         }
 
-        AbstractPhoneNumber phoneNumber = factory.createPhoneNumber();
+        PhoneNumber phoneNumber = factory.createPhoneNumber();
         setPhoneNumber(phoneNumber, type, country);
 
-        addressBook.addAddress(address);
-        addressBook.addPhoneNumber(phoneNumber);
+        Contact contact = new Contact(address, phoneNumber);
+        addressBook.addContact(contact);
+        System.out.println("Contact added successfully!");
     }
 
-    private void fillAddressForm(AbstractAddress address) {
-        System.out.print("Enter street: ");
-        address.setStreet(scanner.nextLine());
-        System.out.print("Enter city: ");
-        address.setCity(scanner.nextLine());
-        System.out.print("Enter region: ");
-        address.setRegion(scanner.nextLine());
-        System.out.print("Enter postal code: ");
-        address.setPostalCode(scanner.nextLine());
+    private void fillAddressForm(Address address) {
+        address.setStreet(getValidInput("Enter street: "));
+        address.setCity(getValidInput("Enter city: "));
+        address.setRegion(getValidInput("Enter region: "));
+        address.setPostalCode(getValidInput("Enter postal code: "));
     }
 
-    private String setInternationalDetails(AbstractAddress address) {
-        System.out.print("Enter country: ");
-        String country = scanner.nextLine();
+    private String setInternationalDetails(Address address) {
+        String country = getValidInput("Enter country: ");
         address.setCountry(country.toUpperCase());
         return country;
     }
 
-    private void setPhoneNumber(AbstractPhoneNumber phoneNumber, String type, String country) {
+    private void setPhoneNumber(PhoneNumber phoneNumber, String type, String country) {
         if (type.equals("International")) {
             String prefix = CountryPrefixReader.getCountryPrefix(country);
             phoneNumber.setPrefix(prefix);
         }
-        System.out.print("Enter phone number: ");
-        phoneNumber.setNumber(scanner.nextLine());
+        phoneNumber.setNumber(getValidInput("Enter phone number: "));
+    }
+
+    private String getValidInput(String prompt) {
+        String input;
+        do {
+            System.out.print(prompt);
+            input = scanner.nextLine().trim();
+            if (input.isEmpty()) {
+                System.out.println("This field cannot be empty. Please enter a valid value.");
+            }
+        } while (input.isEmpty());
+        return input;
     }
 }
